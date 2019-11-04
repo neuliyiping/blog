@@ -1,0 +1,97 @@
+{% load message_tags oauth_tags %}
+{% load humanize %}
+<div class="card-body p-2 p-md-3 f-17" id="comment-list">
+    <ul class="list-unstyled">
+
+        {% for message in message_list %}
+        <div class="comment-parent pt-2" id="com-{{ message.id }}">
+            <li class="media">
+                {% get_user_avatar_tag message.author %}
+                <div class="media-body ml-2">
+                    {% if request.user.is_superuser or request.user == message.author%}
+                    <a class="float-right small mr-2 rep-btn" href="#editor-block" data-repid="{{ message.id }}" data-repuser="{{ message.author.username }}">回复</a>
+                    {% endif %}
+                    <p class="mt-0 mb-1">
+                        {% get_user_link message.author as user_link_info %}
+                        {% if user_link_info.is_verified and user_link_info.link %}
+                        <strong >
+                            <a href="{{ user_link_info.link }}"
+                               title="前往 {{ message.author }} 的个人网站"
+                               target="_blank">{{ message.author }}
+                            </a>
+                        </strong>
+                        {% else %}
+                        <strong title="该用户未认证或没有个人站点">{{ message.author }}</strong>
+                        {% endif %}
+                        {% if user_link_info.is_verified %}
+                            {% if user_link_info.provider == 'GitHub' %}
+                            <i class="fa fa-github" title="Github 绑定用户"></i>
+                            {% elif user_link_info.provider == 'qq' %}
+                            <i class="fa fa-qq" title="qq 绑定用户"></i>
+                            {% else %}
+                            <i class="fa fa-envelope-o" title="邮箱认证用户"></i>
+                            {% endif %}
+                        {% endif %}
+                        {% if message.author.is_superuser %}
+                        <small class="text-danger">[博主]</small>
+                        {% endif %}
+                    </p>
+                    <p class="small text-muted">{{ forloop.revcounter }}&nbsp;楼&nbsp;-&nbsp;{{ message.create_date }}</p>
+                </div>
+            </li>
+            <div class="comment-body">{{ message.content_to_markdown|safe }}</div>
+        </div>
+        {% get_child_messages message as child_messages %}
+        {% if child_messages %}
+        <ul class="list-unstyled ml-4">
+            {% for each in child_messages %}
+            <div class="comment-child pt-2" id="com-{{ each.id }}">
+                <li class="media">
+                    {% get_user_avatar_tag each.author %}
+                    <div class="media-body ml-2">
+                        {% if request.user.is_superuser or each.author.is_superuser %}
+                        <a class="float-right small mr-2 rep-btn" href="#editor-block" data-repid="{{ each.id }}" data-repuser="{{ each.author.username }}">回复</a>
+                        {% endif %}
+                        <p class="mt-0 mb-1">
+                            {% get_user_link each.author as each_user_link_info %}
+                            {% if each_user_link_info.is_verified and each_user_link_info.link %}
+                            <strong >
+                                <a href="{{ each_user_link_info.link }}"
+                                   title="前往 {{ each.author }} 的个人网站"
+                                   target="_blank">{{ each.author }}
+                                </a>
+                            </strong>
+                            {% else %}
+                            <strong title="该用户未认证或没有个人站点">{{ each.author }}</strong>
+                            {% endif %}
+                            {% if each_user_link_info.is_verified %}
+                                {% if each_user_link_info.provider == 'GitHub' %}
+                                <i class="fa fa-github" title="Github 绑定用户"></i>
+                                {% elif each_user_link_info.provider == 'qq' %}
+                                <i class="fa fa-qq" title="qq 绑定用户"></i>
+                                {% else %}
+                                <i class="fa fa-envelope-o" title="邮箱认证用户"></i>
+                                {% endif %}
+                            {% endif %}
+                            {% if each.author.is_superuser %}
+                            <small class="text-danger">[博主]</small>
+                            {% endif %}
+
+                            <span style="color: #1abc9c">回复</span>
+
+                            <strong>{{ each.rep_to.author.username }}</strong>
+
+                        </p>
+                        <p class="small text-muted">{{ each.create_date|naturaltime }}</p>
+                    </div>
+                </li>
+                <div class="comment-body">{{ each.content_to_markdown|safe }}</div>
+            </div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% empty %}
+        来了就留个言再走吧！
+        {% endfor %}
+    </ul>
+</div>
