@@ -2,7 +2,6 @@ rtifi==2019.9.11
 chardet==3.0.4
 defusedxml==0.6.0
 Django==2.2.5
-django-admin-material==0.1.0
 django-allauth==0.39.1
 django-appconf==1.0.3
 django-crispy-forms==1.7.2
@@ -12,6 +11,7 @@ django-mdeditor==0.1.16
 djangorestframework==3.9.4
 docopt==0.6.2
 idna==2.8
+simpleui==3.2
 jieba==0.39
 Markdown==2.6.8
 oauthlib==3.1.0
