@@ -16,7 +16,7 @@ jieba==0.39
 Markdown==2.6.8
 oauthlib==3.1.0
 pilkit==2.0
-Pillow==5.3.0
+Pillow==6.2.0
 pipenv==2018.11.26
 pipreqs==0.4.9
 PyMySQL==0.8.0
