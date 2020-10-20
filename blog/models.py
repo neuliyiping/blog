@@ -217,6 +217,11 @@ class AboutBlog(models.Model):
             'markdown.extensions.codehilite',
         ])
 
+
+class Lunch(models.Model):
+    name = models.CharField('午餐名称', max_length=128)
+
+
 class FriendLink(models.Model):
     name = models.CharField('网站名称', max_length=50)
     description = models.CharField('网站描述', max_length=100, blank=True)

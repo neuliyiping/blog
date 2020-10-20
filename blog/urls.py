@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
 # from .views import goview
-from .views import (IndexView, DetailView, CategoryView, TagView, AboutView,PhotoWallView,MsgBoardView,
+from .views import (IndexView, DetailView, CategoryView, TagView, AboutView,PhotoWallView,MsgBoardView,LunchView,
                     SilianView, ArchiveView,MySearchView,TimelineView)
 
 urlpatterns = [
@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^tag/(?P<slug>[\w-]+)/$', TagView.as_view(), name='tag'),
     url(r'^tag/(?P<slug>[\w-]+)/hot/$', TagView.as_view(), {'sort': 'v'}, name='tag_hot'),
     url(r'^about/$', AboutView, name='about'),  # About页面
+    url(r'^lunch/$', LunchView, name='lunch'),  # About页面
     url(r'^timeline/$', TimelineView.as_view(), name='timeline'),  # timeline页面
     url(r'archive/$', ArchiveView.as_view(), name='archive'),  # 归档页面
     url(r'^silian\.xml$', SilianView.as_view(content_type='application/xml'), name='silian'),  # 死链页面

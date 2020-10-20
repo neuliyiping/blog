@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.text import slugify
 from django.views import generic
 from django.conf import settings
-from .models import Article, Tag, Category, Silian, AboutBlog,Timeline
+from .models import Article, Tag, Category, Silian, AboutBlog,Timeline,Lunch
 from .utils import site_full_url
 from django.core.cache import cache
 from markdown.extensions.toc import TocExtension  # 锚点的拓展
@@ -203,7 +203,12 @@ def AboutView(request):
         body = '<li>作者 Github 地址：<a href="{}">{}</a></li>'.format(repo_url, repo_url)
     return render(request, 'blog/about.html', context={'body': body})
 
-
+def LunchView(request):
+    data = Lunch.objects.values_list()
+    lunches = []
+    for item in data:
+        lunches.append(item[1])
+    return render(request, 'blog/lunch.html', context={'data': ' '.join(lunches)})
 
 class TimelineView(generic.ListView):
     model = Timeline

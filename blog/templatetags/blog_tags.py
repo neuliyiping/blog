@@ -103,6 +103,7 @@ def get_request_param(request, param, default=None):
     print(request.POST.get(param))
     return request.POST.get(param) or request.GET.get(param, default)
 
+
 @register.simple_tag
 def get_friends():
     '''获取活跃的友情链接'''

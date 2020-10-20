@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import (Article, Tag, Category, Timeline,
+from .models import (Article, Tag, Category, Timeline,Lunch,
                      Carousel, Silian, Keyword, FriendLink,
                      AboutBlog)
 
@@ -78,6 +78,18 @@ class FriendLinkAdmin(admin.ModelAdmin):
     list_display = ('name', 'description', 'link', 'create_date', 'is_active', 'is_show')
     date_hierarchy = 'create_date'
     list_filter = ('is_active', 'is_show')
+
+
+@admin.register(Lunch)
+class LunchAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    def short_body(self, obj):
+        return '把自己喜爱的菜添加进去吧'
+    def get_queryset(self, request):
+        qs = super(LunchAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return None
 
 
 @admin.register(AboutBlog)
